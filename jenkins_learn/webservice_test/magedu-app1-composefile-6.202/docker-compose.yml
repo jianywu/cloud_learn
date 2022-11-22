@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  nginx-server:
+    #image: nginx:1.22.0-alpine
+    image: harbor.magedu.net/myserver/nginx:v2 
+    container_name: nginx-web1
+#    network_mode: bridge #网络1，使用docker安装后的默认网桥
+    expose:
+      - 80
+      - 443
+    ports:
+      - "80:80"
+      - "443:443"
+    networks: #网络2，使用自定义的网络，如果网络不存在则会自动创建该网络并分配子网,并且容器会有两块网卡
+      - front
+      - backend
+    links:
+      - tomcat-server
+
+  tomcat-server:
+    #image: tomcat:7.0.93-alpine
+    image: registry.cn-hangzhou.aliyuncs.com/zhangshijie/tomcat-myapp:v1
+    container_name: tomcat-app1
+    ##network_mode: bridge #网络1，使用docker安装后的默认网桥
+    #expose:
+    #  - 8080
+    #ports:
+    #  - "8080:8080"
+    networks: #网络2，使用自定义的网络，如果网络不存在则会自动创建该网络并分配子网,并且容器会有一块网卡
+      - backend
+    links:
+      - mysql-server
+
+  mysql-server:
+    image: mysql:5.6.48
+    container_name: mysql-container
+#    network_mode: bridge #网络1，使用docker安装后的默认网桥
+    volumes:
+      - /data/mysql:/var/lib/mysql
+      #- /etc/mysql/conf/my.cnf:/etc/my.cnf:ro
+    environment:
+      - "MYSQL_ROOT_PASSWORD=12345678"
+      - "TZ=Asia/Shanghai"
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    networks: #网络2，使用自定义的网络，如果网络不存在则会自动创建该网络并分配子网,并且容器会有一块网卡
+      - backend
+
+
+networks:
+  front: #自定义前端服务网络,需要docker-compose创建
+    driver: bridge
+  backend:  #自定义后端服务的网络,要docker-compose创建
+    driver: bridge
+  default: #使用已经存在的docker0默认172.17.0.1/16的网络
+    external:
+      name: bridge
