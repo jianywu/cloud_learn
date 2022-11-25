@@ -1,0 +1,10 @@
+instances:
+  - name: "es1.example.com"
+    ip:
+      - "114.115.144.163"
+  - name: "es2.example.com"
+    ip:
+      - "114.115.154.84"
+  - name: "es3.example.com"
+    ip:
+      - "114.115.221.236"
