@@ -12,3 +12,9 @@ echo "add keystonre password"
 ./bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password
 echo "add truststore password"
 xpack.security.transport.ssl.truststore.secure_password
+
+echo "setup passwords"
+./bin/elasticsearch-setup-passwords interactive
+
+echo "add user"
+./bin/elasticsearch-users useradd dave -p 123456 -r superuser
