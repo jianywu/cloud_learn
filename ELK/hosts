@@ -1,0 +1,6 @@
+# Add those in host file, so domain name can change to IP addr
+124.223.157.166 es-node0
+125.124.238.46  es-node1
+114.115.144.163 es-node2
+114.115.154.84  es-node3
+114.115.221.236 es-node4
