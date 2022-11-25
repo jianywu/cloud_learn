@@ -7,6 +7,7 @@ pipeline {
     }
     environment {
         def NODE_BUILD = "114.115.154.84"
+        def NODE_TEST = "125.124.238.46"
         def NODE_GITLAB = "114.115.144.163"
         def NODE_HARBOR = "114.115.221.236"
         def APP1_DEPLOY_DIR = '/var/lib/jenkins/workspace/magedu-app1_deploy-20221120'
@@ -17,7 +18,6 @@ pipeline {
         def IMAGE_PROJECT = 'myserver'
         def IMAGE_NAME = 'nginx'
         def DATE = sh(script:'date +%F_%H-%M-%S', returnStdout: true).trim()
-        // def GIT_COMMIT_TAG = ""
     }
 
     parameters {
@@ -37,7 +37,6 @@ pipeline {
                         echo "start clone code:"
                         if (env.BRANCH == 'main') {
                             git branch: 'main', credentialsId: '23e49037-3cb3-4dc6-9af9-fbe6a92eec11', url: "${env.WEB_GIT_URL}"
-                            // sh "git clone -b main ${env.WEB_GIT_URL}"
                         } else if (env.BRANCH == 'develop') {
                             git branch: 'develop', credentialsId: '23e49037-3cb3-4dc6-9af9-fbe6a92eec11', url: "${env.WEB_GIT_URL}"
                             echo 'BRANCH PARAMETER ERROR'
@@ -47,8 +46,6 @@ pipeline {
                         // Note: ${env.GIT_COMMIT_TAG} is null.
                         echo "GIT_COMMIT_TAG is ${GIT_COMMIT_TAG}"
                     }
-                    // sh "git clone -b main ${env.TEST_GIT_URL}"
-                    // sh "git clone -b main ${env.SONAR_GIT_URL}"
                 }
             }
         }
@@ -115,7 +112,9 @@ pipeline {
             steps {
                 // agent { label 'jenkins-node4' }
                 sh """
-                   ssh root@${env.NODE_BUILD} "echo ${DATE} && cd /data/magedu-app1 && docker-compose pull && docker-compose up -d"
+                   ssh root@${env.NODE_TEST} "rm -rf /data/magedu-app1; mkdir -p /data/magedu-app1"
+                   ssh root@${env.NODE_BUILD} "scp /data/magedu-app1/docker-compose.yml ${env.NODE_TEST}:/data/magedu-app1/docker-compose.yml"
+                   ssh root@${env.NODE_TEST} "echo ${DATE} && cd /data/magedu-app1 && docker-compose pull && docker-compose up -d"
                 """
             }
         }
