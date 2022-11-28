@@ -14,7 +14,7 @@
 #
 # Use a descriptive name for your cluster:
 #
-cluster.name: dave-es-cluster
+cluster.name: magedu-es-cluster
 #
 # ------------------------------------ Node ------------------------------------
 #
@@ -53,7 +53,7 @@ path.logs: /data/eslogs
 # By default Elasticsearch is only accessible on localhost. Set a different
 # address here to expose this node on the network:
 #
-network.host: 0.0.0.0
+network.host: 192.168.0.79
 #
 # By default Elasticsearch listens for HTTP traffic on the first free port it
 # finds starting at 9200. Set a specific HTTP port here:
@@ -67,11 +67,11 @@ http.port: 9200
 # Pass an initial list of hosts to perform discovery when this node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.seed_hosts: ["114.115.144.163","114.115.154.84","114.115.221.236"]
+discovery.seed_hosts: ["192.168.0.79", "172.16.0.205", "10.0.0.75"]
 #
 # Bootstrap the cluster using an initial set of master-eligible nodes:
 #
-cluster.initial_master_nodes: ["114.115.144.163","114.115.154.84","114.115.221.236"]
+cluster.initial_master_nodes: ["192.168.0.79", "172.16.0.205", "10.0.0.75"]
 #
 # For more information, consult the discovery and cluster formation module documentation.
 #
@@ -87,7 +87,4 @@ cluster.initial_master_nodes: ["114.115.144.163","114.115.154.84","114.115.221.2
 #
 action.destructive_requires_name: true
 
-xpack.security.enabled: true
-xpack.security.transport.ssl.enabled: true
-xpack.security.transport.ssl.keystore.path: /apps/elasticsearch/config/certs/es1.example.com.p12
-xpack.security.transport.ssl.truststore.path: /apps/elasticsearch/config/certs/es1.example.com.p12
+xpack.security.enabled: false
