@@ -22,8 +22,12 @@ echo "add keystore password"
 echo "add truststore password"
 ./bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password
 
+scp -rp /apps/elasticsearch/config/elasticsearch.keystore es-node2:/apps/elasticsearch/config/elasticsearch.keystore
+scp -rp /apps/elasticsearch/config/elasticsearch.keystore es-node3:/apps/elasticsearch/config/elasticsearch.keystore
+
+# setup password
 echo "setup passwords"
 ./bin/elasticsearch-setup-passwords interactive
 
 echo "add user"
-./bin/elasticsearch-users useradd dave -p 123456 -r superuser
+./bin/elasticsearch-users useradd magedu -p 123456 -r superuser
