@@ -1,4 +1,5 @@
 #!/bin/bash
+# generate ca
 echo "generate private key"
 ./bin/elasticsearch-certutil ca
 echo "generate public key via private key"
@@ -6,12 +7,20 @@ echo "generate public key via private key"
 echo "generate cluster node certificate"
 ./bin/elasticsearch-certutil cert --silent --in instances.yml --out certs.zip --pass magedu123 --ca elastic-stack-ca.p12
 
+unzip certs.zip
+mkdir config/certs
+cp -rp es1.example.com/es1.example.com.p12 config/certs
+
+scp -rp es2.example.com/es2.example.com.p12 es-node2:/apps/elasticsearch/config/certs
+scp -rp es3.example.com/es3.example.com.p12 es-node3:/apps/elasticsearch/config/certs
+
+# generate key store file
 echo "generate keystore file"
 ./bin/elasticsearch-keystore create
-echo "add keystonre password"
+echo "add keystore password"
 ./bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password
 echo "add truststore password"
-xpack.security.transport.ssl.truststore.secure_password
+./bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password
 
 echo "setup passwords"
 ./bin/elasticsearch-setup-passwords interactive

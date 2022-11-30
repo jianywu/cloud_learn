@@ -87,4 +87,8 @@ cluster.initial_master_nodes: ["192.168.0.79", "172.16.0.205", "10.0.0.75"]
 #
 action.destructive_requires_name: true
 
-xpack.security.enabled: false
+xpack.security.enabled: true
+
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.keystore.path: /apps/elasticsearch/config/certs/es1.example.com.p12
+xpack.security.transport.ssl.truststore.path: /apps/elasticsearch/config/certs/es1.example.com.p12
