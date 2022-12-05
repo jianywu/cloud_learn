@@ -14,3 +14,6 @@ vim logstash/config/logstash.yml
 vim logstash/config/logstash.conf
 # 运行所有容器
 docker-compose up -d
+
+# 重启某个容器，比如修改了logstash/config/logstash.conf，重启logstash
+docker restart logstash
