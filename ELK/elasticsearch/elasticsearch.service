@@ -3,6 +3,7 @@ Description=Elasticsearch
 Documentation=http://www.elastic.co
 Wants=network-online.target
 After=network-online.target
+
 [Service]
 RuntimeDirectory=elasticsearch
 Environment=ES_HOME=/apps/elasticsearch
@@ -37,3 +38,6 @@ KillMode=process
 # Java process is never killed
 SendSIGKILL=no
 # When a JVM receives a SIGTERM signal it exits with code 143
+
+[Install]
+WantedBy=multi-user.target

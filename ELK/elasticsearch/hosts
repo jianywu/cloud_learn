@@ -1,0 +1,4 @@
+# Add those in /etc/hosts, so domain name can change to IP addr
+124.223.157.166 es-node0
+125.124.238.46  es-node1
+42.51.17.66     es-node2
