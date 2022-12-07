@@ -1,0 +1,4 @@
+# 配置
+federal是连接其它Prometheus的node的，端口是Prometheus的9090。
+idc是连接node_exporter的，端口是node_exporter的9100。
+

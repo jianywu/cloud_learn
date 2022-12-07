@@ -1,0 +1,4 @@
+# scrape_configs:
+  - job_name: "prometheus-idc2"
+    static_configs:
+      - targets: ["114.115.154.84:9100", "114.115.221.236:9100"]
