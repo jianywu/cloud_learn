@@ -1,0 +1,11 @@
+# /etc/systemd/system/pushgateway.service
+
+[Unit]
+Description=Prometheus pushgateway
+After=network.target
+
+[Service]
+ExecStart=/apps/pushgateway/pushgateway
+
+[Install]
+WantedBy=multi-user.target

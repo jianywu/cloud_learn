@@ -1,0 +1,5 @@
+# add to prometheus, and reload or restart prometheus.
+  - job_name: 'pushgateway-monitor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['124.223.157.166:9091']
