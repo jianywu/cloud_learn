@@ -1,3 +1,6 @@
+# pushgateway basics
+if some data don't have exporters yet, then we need manually push them to pushgateway, prometheus can get data there.
+
 # install
 use onekey-install.sh or install by docker, perfer docker install.
 docker run -d --name pushgateway -p 9091:9091 prom/pushgateway:v1.5.1

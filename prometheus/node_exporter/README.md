@@ -1,3 +1,6 @@
+# exporters简介
+exporter会从各节点导出metrics的数据，prometheus可以从exporter拿到数据。
+
 # 从官网下载
 https://github.com/prometheus/node_exporter或https://gitee.com/AliyunContainerService/node_exporter
 https://github.com/prometheus/node_exporter/releases/download/
