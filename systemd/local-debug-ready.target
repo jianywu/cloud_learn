@@ -1,0 +1,7 @@
+# /etc/systemd/system/local-debug-ready.target
+[Unit]
+Description = Local debug target
+Requires = local-debug.service
+
+[Install]
+RequiredBy = multi-user.target

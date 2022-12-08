@@ -1,0 +1,4 @@
+# /etc/systemd/system-preset/39-local-debug.preset
+# Enable related services
+enable local-debug-ready.target
+enable local-debug.service

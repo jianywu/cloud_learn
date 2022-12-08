@@ -5,7 +5,7 @@ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.5.1-li
 
 1. Install directly via onekey-install.sh
 ./onekey-install.sh
-2. Update config/elasticsearch.yml, restart elasticsearch.service.
+2. Update config/elasticsearch.yml, config/jvm.options to reduce mem usage, restart elasticsearch.service.
 3. Update /etc/hosts, add elastic search IP addrs.
 4. After install, configure_keystore.sh for keystore.
 5. If needed, configure_ca.sh for ca public and private keys.
@@ -30,3 +30,4 @@ ss -tnlp | grep -E "9200|9300"
 port 9200 for outside access, 9300 for cluster communication.
 curl 124.223.157.166:9200
 Expect to see: "You Know, for Search"
+Install in host is not so good, better use docker-compose to run it in container.

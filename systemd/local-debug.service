@@ -1,0 +1,27 @@
+# /etc/systemd/system/local_debug.service
+[Unit]
+Description=Local debug serivce
+Wants=network-online.target
+After=network-online.target
+Before=local-debug-ready.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/apps/local_debug
+User=root
+Group=root
+# StandardOutput is configured to redirect to journalctl since
+# some error messages may be logged in standard output before
+# elasticsearch logging system is initialized. Elasticsearch
+# stores its logs in /var/log/elasticsearch and does not use
+# journalctl by default. If you also want to enable journalctl
+# logging, you can simply remove the "quiet" option from ExecStart.
+StandardOutput=journal
+StandardError=inherit
+ExecStart=/apps/local_debug/local_debug.sh
+# ExecStart=/bin/echo "local debug systemd service started"
+TimeoutStartSec = 60
+RemainAfterExit = yes
+
+[Install]
+RequiredBy = local-debug-ready.target
