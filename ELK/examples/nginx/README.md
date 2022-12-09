@@ -30,3 +30,5 @@ es的log在elasticsearch.yml中配置。
       - 'es-data:/usr/share/elasticsearch/data'
       - 'es-log:/usr/share/elasticsearch/log'
 
+# 修改logstash的配置之后，重启logstash
+systemctl restart logstash
