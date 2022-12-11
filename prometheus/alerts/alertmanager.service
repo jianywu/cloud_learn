@@ -1,0 +1,11 @@
+# /etc/systemd/system/alert_manager.service
+
+[Unit]
+Description=Prometheus alert_manager
+After=network.target
+
+[Service]
+ExecStart=/apps/alert_manager/alert_manager
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,23 @@
+rule_files:
+  - "rule/alerts.yml"
+
+global:
+  smtp_smarthost: ''
+  smtp_from: ''
+  smtp_auth_username: ''
+  smtp_auth_password: ''
+route:
+  receiver: main_receiver
+  routes:
+  - receiver: 'urgent'
+  matchers:
+    - severity: "Error"
+
+receivers:
+- name: 'main_receiver'
+  email_configs:
+  - to: '332348328@qq.com'
+
+- name: 'main_receiver'
+  email_configs:
+  - to: 'wujianyue000@163.com'

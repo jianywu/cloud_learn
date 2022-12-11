@@ -1,7 +1,4 @@
 #!/bin/bash
-#Author: "Zhang ShiJie"
-#Email: "rooroot@aliyun.com"
-#Date: 20220903
 
 VERSION="1.5.0"
 # VERSION = $1 # i.e. 1.5.0

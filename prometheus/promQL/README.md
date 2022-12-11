@@ -21,3 +21,7 @@ summary摘要
 
 # 函数
 absent()
+
+# 过滤
+sum(node_cpu_seconds_total) by (instance)
+可以通过by来过滤，比如通过instance来过滤内容。

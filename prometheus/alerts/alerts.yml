@@ -1,0 +1,13 @@
+groups:
+  - name: Alerts
+    rules:
+    - alert: Is Node Exporter up
+      expr: absent(up{job="node_exporter"})
+      for: 5m
+      labels:
+        team: ops
+        severity: Error
+      annotations:
+        summary: "Node exporter {{ $labels.instance }} is down."
+        description: "Node exporter {{ $labels.instance }} need restart."
+

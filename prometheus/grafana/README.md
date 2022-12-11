@@ -28,3 +28,6 @@ systemctl status grafana-server
 http://ip:3000即可登录。
 默认用户名和密码都是admin。
 
+# 好的模板
+https://grafana.com/grafana/dashboards/?search=linux
+https://grafana.com/grafana/dashboards/8919-1-node-exporter-for-prometheus-dashboard-cn-0413-consulmanager/

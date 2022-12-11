@@ -1,6 +1,7 @@
 # /etc/systemd/system/local_debug.service
 [Unit]
 Description=Local debug serivce
+# usually network-online.target or network.target
 Wants=network-online.target
 After=network-online.target
 Before=local-debug-ready.target
@@ -18,7 +19,7 @@ Group=root
 # logging, you can simply remove the "quiet" option from ExecStart.
 StandardOutput=journal
 StandardError=inherit
-ExecStart=/apps/local_debug/local_debug.sh
+ExecStart=/bin/bash /apps/local_debug/local_debug.sh
 # ExecStart=/bin/echo "local debug systemd service started"
 TimeoutStartSec = 60
 RemainAfterExit = yes

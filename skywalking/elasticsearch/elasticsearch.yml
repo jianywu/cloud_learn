@@ -1,0 +1,20 @@
+# grep -v "#" /etc/elasticsearch/elasticsearch.yml | grep -v "^$"
+cluster.name: es1
+node.name: node1
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+network.host: 172.31.2.171
+http.port: 9200
+discovery.seed_hosts: ["172.31.2.171",]
+cluster.initial_master_nodes: ["172.31.2.171",]
+xpack.security.enabled: false
+xpack.security.enrollment.enabled: false
+xpack.security.http.ssl:
+  enabled: false
+  keystore.path: certs/http.p12
+xpack.security.transport.ssl:
+  enabled: false
+  verification_mode: certificate
+  keystore.path: certs/transport.p12
+  truststore.path: certs/transport.p12
+http.host: 0.0.0.0
