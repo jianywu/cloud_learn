@@ -1,0 +1,76 @@
+version: "3"
+services:
+  elasticsearch:
+    image: elasticsearch:8.4.2
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    healthcheck:
+      #⼼跳检测，成功之后不再执⾏后⾯的退出
+      test:
+        [
+          "CMD-SHELL",
+          "curl -sf http://localhost:9200/_cluster/health || exit 1"
+        ]
+      interval: 60s #⼼跳检测间隔周期
+      timeout: 10s
+      retries: 3
+      start_period: 60s #⾸次检测延迟时间
+    environment:
+      discovery.type: single-node #单节点模式
+      ingest.geoip.downloader.enabled: "false"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      TZ: "Asia/Shanghai"
+      xpack.security.enabled: "false" #单机模式
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  skywalking-oap:
+    image: apache/skywalking-oap-server:9.3.0
+    container_name: skywalking-oap
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    links:
+      - elasticsearch
+    environment:
+      SW_HEALTH_CHECKER: default
+      SW_STORAGE: elasticsearch
+      SW_STORAGE_ES_CLUSTER_NODES: elasticsearch:9200
+      JAVA_OPTS: "-Xms2048m -Xmx2048m"
+      TZ: Asia/Shanghai
+      SW_TELEMETRY: prometheus
+    healthcheck:
+      test: [ "CMD-SHELL", "/skywalking/bin/swctl ch" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: on-failure
+    ports:
+      - "11800:11800"
+      - "12800:12800"
+
+  skywalking-ui:
+    image: apache/skywalking-ui:9.3.0
+    depends_on:
+      skywalking-oap:
+        condition: service_healthy
+    links:
+      - skywalking-oap
+    ports:
+      - "8080:8080"
+    environment:
+      SW_OAP_ADDRESS: http://skywalking-oap:12800
+      SW_HEALTH_CHECKER: default
+      TZ: Asia/Shanghai
+    healthcheck:
+      #⼼跳检测，成功之后不再执⾏后⾯的退出
+      test: [ "CMD-SHELL", "curl -sf http://localhost:8080 || exit 1" ]
+      interval: 60s #⼼跳检测间隔周期
+      timeout: 10s
+      retries: 3
+      start_period: 60s #⾸次检测延迟时间

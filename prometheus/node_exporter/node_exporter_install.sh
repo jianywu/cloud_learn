@@ -12,6 +12,6 @@ wget https://github.com/prometheus/node_exporter/releases/download/v${VERSION}/n
 mkdir -p /apps
 tar xvf ${PKG} -C /apps
 ln -sv /apps/${S_DIR} /apps/node_exporter
-\cp ./node-exporter.service /etc/systemd/systemd/node-exporter.service
+\cp ./node-exporter.service /etc/systemd/system/node-exporter.service
 systemctl daemon-reload && systemctl restart node-exporter && systemctl enable node-exporter
 echo "node-exporter install successful"

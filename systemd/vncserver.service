@@ -1,0 +1,22 @@
+# /etc/systemd/system/vncserver.service
+[Unit]
+Description=Remote desktop service (VNC)
+Documentation=https://help.realvnc.com/hc/en-us/categories/360000301637-Documentation
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+Restart=on-failure
+#To avoid error of: Start request repeated too quickly.
+RestartSec=5
+#To avoid error of: vncserver: The HOME environment variable is not set.
+#Need run as user who has HOME env var, like user root.
+ExecStart=/sbin/runuser -l root -c "/usr/bin/vncserver -geometry 1920x1080"
+# Pre and Stop has some problem(stop called in after startup), so comment out firstly
+# ExecStartPre=/sbin/runuser -l root -c "/usr/bin/vncserver -kill :1"
+# ExecStop=/sbin/runuser -l root -c "/usr/bin/vncserver -kill :1"
+
+[Install]
+WantedBy=multi-user.target

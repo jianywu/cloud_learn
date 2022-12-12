@@ -3,10 +3,10 @@ cluster.name: es1
 node.name: node1
 path.data: /var/lib/elasticsearch
 path.logs: /var/log/elasticsearch
-network.host: 172.31.2.171
+network.host: 0.0.0.0
 http.port: 9200
-discovery.seed_hosts: ["172.31.2.171",]
-cluster.initial_master_nodes: ["172.31.2.171",]
+discovery.seed_hosts: ["124.223.157.166",]
+cluster.initial_master_nodes: ["124.223.157.166",]
 xpack.security.enabled: false
 xpack.security.enrollment.enabled: false
 xpack.security.http.ssl:

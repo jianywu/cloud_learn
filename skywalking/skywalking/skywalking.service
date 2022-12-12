@@ -1,0 +1,15 @@
+# /etc/systemd/system/skywalking.service
+[Unit]
+Description=Apache Skywalking
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/apps/skywalking/bin/
+ExecStart=/bin/bash /apps/skywalking/bin/startup.sh
+RemainAfterExit=yes
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

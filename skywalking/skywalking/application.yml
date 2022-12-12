@@ -1,0 +1,6 @@
+# Storage change to elasticsearch, and assign IP
+storage:
+  selector: ${SW_STORAGE:elasticsearch}
+  elasticsearch:
+    namespace: ${SW_NAMESPACE:""}
+    clusterNodes: ${SW_STORAGE_ES_CLUSTER_NODES:42.51.17.66:9200}
