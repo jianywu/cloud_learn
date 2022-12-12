@@ -5,8 +5,8 @@ path.data: /var/lib/elasticsearch
 path.logs: /var/log/elasticsearch
 network.host: 0.0.0.0
 http.port: 9200
-discovery.seed_hosts: ["124.223.157.166",]
-cluster.initial_master_nodes: ["124.223.157.166",]
+discovery.seed_hosts: ["0.0.0.0",]
+cluster.initial_master_nodes: ["0.0.0.0",]
 xpack.security.enabled: false
 xpack.security.enrollment.enabled: false
 xpack.security.http.ssl:

@@ -7,4 +7,7 @@
 
 # 访问skywalking
 http://124.223.157.166:8080
-8080就是skywalking开放的端口。
+8080就是skywalking-ui开放的端口。
+也可以在webapp/application.yml文件中修改端口号，比如8081，避免和其它服务冲突。
+serverPort: ${SW_SERVER_PORT:-8081}
+

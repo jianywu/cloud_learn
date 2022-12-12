@@ -1,0 +1,27 @@
+rules: #定义rule规则
+  service_cpm_rule: #唯一的规则名称,必须以_rule结尾
+    # Metrics value need to be long, double or int
+    metrics-name: service_cpm #指标名称
+    op: ">" #操作符,>, >=, <, <=, ==
+    threshold: 1 #指标阈值
+    # The length of time to evaluate the metrics
+    period: 2 #评估指标的间隔周期
+    # How many times after the metrics match the condition, will trigger alarm
+    count: 1 #匹配成功多少次就会触发告警
+    # How many times of checks, the alarm keeps silence after alarm triggered, default as same as period.
+    #silence-period: 3
+    silence-period: 2 #触发告警后的静默时间
+    message: dubbo-provider service_cpm 大于1了 #告警信息
+
+dingtalkHooks:
+  textTemplate: |-
+    {
+      "msgtype": "text",
+      "text": {
+        "content": "Apache SkyWalking Alarm: \n %s."
+      }
+    }
+
+webhooks:
+  - url: https://oapi.dingtalk.com/robot/send?access_token=xx #注意xx替换为钉钉的webhook。
+# i.e. https://oapi.dingtalk.com/robot/send?access_token=2c6380c6d12b06a30c98a74229ba86689660956d3369fb2389aee46a59ca9337
