@@ -36,15 +36,16 @@ vi /apps/openresty/nginx/conf/nginx.conf
 
 #  配置agent
 https://github.com/apache/skywalking-nginx-lua
-https://github.com/apache/skywalking-nginx-lua
 
-# mkdir  /data
-# cd /data/
-# wget https://github.com/apache/skywalking-nginx-lua/archive/refs/tags/v0.6.0.tar.gz
-# mv v0.6.0.tar.gz  skywalking-nginx-lua-v0.6.0.tar.gz
-# tar xvf skywalking-nginx-lua-v0.6.0.tar.gz
-
-# cd /apps/openresty/nginx/conf/
-# vim nginx.conf
+# 其它
+```bash
+mkdir /data
+cd /data
+wget https://github.com/apache/skywalking-nginx-lua/archive/refs/tags/v0.6.0.tar.gz
+mv v0.6.0.tar.gz  skywalking-nginx-lua-v0.6.0.tar.gz
+tar xvf skywalking-nginx-lua-v0.6.0.tar.gz
+cd /apps/openresty/nginx/conf
+vim nginx.conf
   include /apps/openresty/nginx/conf/conf.d/*.conf;
- # mkdir  conf.d
+mkdir conf.d
+```

@@ -7,6 +7,8 @@ But of course, we can use multiple machines or containers to improve this, cloud
 # docker images
 Download from https://skywalking.apache.org/downloads/
 Run skywalking_docker-compose-install.sh directly to bring up skywalking and elasticsearch dockers.
+https://hub.docker.com/r/apache/skywalking-oap-server
+https://hub.docker.com/r/apache/skywalking-ui
 
 # good website
 Validate yaml:
