@@ -12,7 +12,7 @@ apt install -y ceph-base ceph-common ceph-fuse ceph-mds ceph-mon ceph-osd --allo
 # 加key文件
 #wget -q -O- 'https://mirrors.tuna.tsinghua.edu.cn/ceph/keys/release.asc' | sudo apt-key add -
 
-# 如果22.04是jammy，而20.04是focal，通过lsb_release -sc查看。虚拟机需要，云主机可以不用，一般都默认配置了这个库。
+# 如果22.04是jammy，而20.04是focal，18.04是bionic，通过lsb_release -sc查看。虚拟机需要，云主机可以不用，一般都默认配置了这个库。
 # echo "deb https://mirrors.tuna.tsinghua.edu.cn/ceph/debian-pacific focal main" >> /etc/apt/sources.list
 #echo "deb http://download.ceph.com/debian-jewel/ jammy main" >> /etc/apt/sources.list
 #apt update -y
@@ -20,18 +20,18 @@ apt install -y ceph-base ceph-common ceph-fuse ceph-mds ceph-mon ceph-osd --allo
 # 免密钥登录，先在/etc/hosts里加上各主机的解析。Here Document的cat << EOF方式重定向即可。也可以直接echo
 ip1="42.51.17.66"
 ip2="125.124.238.46"
-ip3="114.115.144.163"
+ip3="124.223.157.166"
 (
 cat << EOF
 $ip1 ceph-deploy.example.local ceph-deploy
 $ip1 ceph-mon1.example.local ceph-mon1
-$ip2 ceph-mon1.example.local ceph-mon2
-$ip3 ceph-mon1.example.local ceph-mon3
+$ip2 ceph-mon2.example.local ceph-mon2
+$ip3 ceph-mon3.example.local ceph-mon3
 $ip1 ceph-mgr1.example.local ceph-mgr1
-$ip2 ceph-mgr1.example.local ceph-mgr2
+$ip2 ceph-mgr2.example.local ceph-mgr2
 $ip1 ceph-node1.example.local ceph-node1
 $ip2 ceph-node2.example.local ceph-node2
-$ip3 ceph-node2.example.local ceph-node3
+$ip3 ceph-node3.example.local ceph-node3
 EOF
 ) >> /etc/hosts
 
