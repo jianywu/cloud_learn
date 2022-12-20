@@ -3,7 +3,7 @@
 set -x
 
 ip=$1
-mon_node=$2
+mon_id=$2
 
 # 需要以cephadmin账户执行, 手动输入切换用户后，再运行脚本
 # su - cephadmin
@@ -29,10 +29,13 @@ sudo apt update -y
 # 需要配置cluster-network，否则会报错。同时也无法生成配置文件。
 # ceph-deploy new --cluster-network 192.168.0.0/21 --public-network 125.124.0.0/21 ceph-mon1.example.local
 cd ~/ceph-cluster
-ceph-deploy new --cluster-network $ip/21 --public-network $ip/21 $mon_node
+ceph-deploy new --cluster-network $ip/21 --public-network $ip/21 ceph-mon$mon_id.example.local
 
 # 上一步执行后，会自动生成ceph的配置文件，以及ceph的log
 cat ceph.conf
+
+# 初始化node节点
+ceph-deploy install --no-adjust-repos --nogpgcheck ceph-node1 ceph-node2 ceph-node3
 
 # ceph-mon服务
 # 各节点分别运行这些脚本。
@@ -51,6 +54,7 @@ ps -ef | grep ceph-mon
 # 分发admin秘钥
 sudo apt install ceph-common -y
 ceph-deploy --overwrite-conf admin ceph-node1 ceph-node2 ceph-node3
+ls -l /etc/ceph
 
 # 节点验证秘钥，各node都增加这个秘钥，授权cephadmin执行权限，默认只有root能执行, setfacl是配置访问控制列表。
 sudo setfacl -m u:cephadmin:rw /etc/ceph/ceph.client.admin.keyring

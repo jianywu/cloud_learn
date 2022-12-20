@@ -22,7 +22,6 @@ ceph-deploy osd create ceph-node1 --data /dev/sde
 ceph-node1 /dev/sdb 0
 ceph-node2 /dev/sdc 0
 ceph-node3 /dev/sdd 0
-ceph-node4 /dev/sde 0
 设置OSD服务自启动，重启后，看OSD是否会自动启动。
 在health里的clock skew表示需要同步时间。如果socket在用，就systemctl stop ntp，把ntp服务停掉。
 ```bash
