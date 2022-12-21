@@ -15,7 +15,7 @@ mkdir -p /etc/ceph
 ## host主机执行的命令
 ### 搭建集群
 ```bash
-cephadm bootstrap --mon-ip 192.168.0.79
+cephadm bootstrap --mon-ip 192.168.1.8
 ```
 1. 会创建mon和mgr进程。生成密钥
 2. 添加到/root/.ssh/authrized_kyes文件中。
@@ -32,13 +32,16 @@ ceph -s
 
 ### 复制key到从机
 ```bash
+ssh-copy-id -f -i /etc/ceph/ceph.pub root@ecs-211060
 ssh-copy-id -f -i /etc/ceph/ceph.pub root@ecs-337800
 ssh-copy-id -f -i /etc/ceph/ceph.pub root@ecs-91251
 ssh-copy-id -f -i /etc/ceph/ceph.pub root@ceph-mon2
 ```
 
 ### 集群添加其它节点
+会启动node_exporter,还有ceph-crash的容器
 ```bash
+ceph orch host add ecs-211060
 ceph orch host add ecs-337800
 ceph orch host add ecs-91251
 ceph orch host add ceph-mon2
@@ -70,18 +73,24 @@ cat /etc/ceph/ceph.client.admin.keyring
         caps mon = "allow *"
         caps osd = "allow *"
 
+# 清除集群
+# deployment节点
+ceph orch pause
+# 或者docker ps看容器名字里的fsid也可以
+ceph fsid
+# 所有节点
+cephadm rm-cluster --force --zap-osds --fsid <fsid>
 
+# 测试记录
 Ceph Dashboard is now available at:
 
-             URL: https://localhost.vm:8443/
+             URL: https://ceph-mon2.example.local:8443/
             User: admin
-        Password: hjui40u6im
+        Password: 1j8i1xdgrt
 
-Enabling client.admin keyring and conf on hosts with "admin" label
-Enabling autotune for osd_memory_target
 You can access the Ceph CLI with:
 
-        sudo /usr/sbin/cephadm shell --fsid f2b6c5ae-805e-11ed-b5c1-61b685e79979 -c /etc/ceph/ceph.conf -k /etc/ceph/ceph.client.admin.keyring
+        sudo /usr/bin/cephadm shell --fsid 80b05f70-813e-11ed-9d92-fa163e87c045 -c /etc/ceph/ceph.conf -k /etc/ceph/ceph.client.admin.keyring
 
 Please consider enabling telemetry to help improve Ceph:
 
