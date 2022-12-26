@@ -25,3 +25,11 @@ rbd -p myrbd1 map myimg2
 dd if=/dev/zero of=/data/ceph-test-file bs=1MB count=300
 ceph df
 
+# 更新pg和pgp，防止不够用
+ceph osd pool get myrbd1 pg_num
+ceph osd pool get myrbd1 pgp_num
+
+# Total PGs = ((Total_number_of_OSD * 100) / max_replication_count) / pool_count
+# pgp_num == pg_num
+ceph osd pool set myrbd1 pg_num 64
+ceph osd pool set myrbd1 pgp_num 64
