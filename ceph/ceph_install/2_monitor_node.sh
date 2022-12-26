@@ -1,9 +1,8 @@
 #!/bin/bash
 
-set -x
+# 命令都在ceph-mon1执行即可，除非明确标注所有主机
 
-ip=$1
-mon_id=$2
+set -x
 
 # 需要以cephadmin账户执行, 手动输入切换用户后，再运行脚本
 # su - cephadmin
@@ -13,23 +12,8 @@ cd ~/ceph-cluster
 # 查看deploy的帮助文档
 ceph-deploy --help
 
-# 安装python2
-sudo apt install python2.7 -y
-sudo ln -sv /usr/bin/python2.7 /usr/bin/python2
-sudo add-apt-repository universe
-sudo apt update -y
-# 或者可以执行本目录下的get-pip.py文件
-# 官网的手动下载也可以，如果下载的不全，会出现ERROR: This script does not work on Python 2.7 The minimum supported Python version is 3.6.
-# curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
-#sudo python2 get-pip.py
-#pip2 --version
-
 # 部署集群
-# 如果提示module 'platform' has no attribute 'linux_distribution'，需要编译安装。
-# 需要配置cluster-network，否则会报错。同时也无法生成配置文件。
-# ceph-deploy new --cluster-network 192.168.0.0/21 --public-network 125.124.0.0/21 ceph-mon1.example.local
-cd ~/ceph-cluster
-ceph-deploy new --cluster-network $ip/21 --public-network $ip/21 ceph-mon$mon_id.example.local
+ceph-deploy new --cluster-network 0.0.0.0/0 --public-network 0.0.0.0/0 ceph-mon1.example.local ceph-mon2.example.local ceph-mon3.example.local
 
 # 上一步执行后，会自动生成ceph的配置文件，以及ceph的log
 cat ceph.conf

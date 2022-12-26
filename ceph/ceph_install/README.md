@@ -20,3 +20,9 @@ ceph-mgr2(active)
 ## 安装storage node
 也需要su - cephadmin
 部署3个节点。
+
+都建好后，会有这些进程：
+ceph        1206       1  3 20:20 ?        00:00:04 /usr/bin/ceph-mgr -f --cluster ceph --id ceph-mgr2 --setuser ceph --setgroup ceph
+ceph        1212       1  0 20:20 ?        00:00:00 /usr/bin/ceph-mon -f --cluster ceph --id ceph-mon2 --setuser ceph --setgroup ceph
+ceph        1713       1  0 20:20 ?        00:00:00 /usr/bin/ceph-osd -f --cluster ceph --id 1 --setuser ceph --setgroup ceph
+

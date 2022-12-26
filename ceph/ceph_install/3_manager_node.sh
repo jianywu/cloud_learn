@@ -1,11 +1,13 @@
 #!/bin/bash
 
-id=$1
+# 都在ceph-deploy(mon1)节点执行即可
 
 # sudo - cephadmin
 ceph-deploy mgr --help
 sudo apt install ceph-mgr -y
-ceph-deploy --overwrite-conf mgr create ceph-mgr$id
+ceph-deploy mgr create ceph-mgr1
+# RuntimeError: bootstrap-mgr keyring not found; run 'gatherkeys'
+ceph-deploy mgr create ceph-mgr2
 
 # 看ceph-mgr是否起来了
 ps -ef | grep ceph
@@ -13,7 +15,7 @@ ps -ef | grep ceph
 # 管理ceph集群
 sudo apt install ceph-common -y
 # 推送证书给自己
-ceph-deploy --overwrite-conf admin ceph-deploy
+ceph-deploy admin ceph-deploy
 # 测试ceph命令，先授权
 sudo setfacl -m u:cephadmin:rw /etc/ceph/ceph.client.admin.keyring
 # 再测试，可以看到mgr的进程
