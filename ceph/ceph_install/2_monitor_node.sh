@@ -43,3 +43,5 @@ ls -l /etc/ceph
 # 节点验证秘钥，各node都增加这个秘钥，授权cephadmin执行权限，默认只有root能执行, setfacl是配置访问控制列表。
 sudo setfacl -m u:cephadmin:rw /etc/ceph/ceph.client.admin.keyring
 # 需要读/etc/ceph目录中的配置文件。
+# 推送mon的配置到另2个节点，可以用{..}来表示多个node
+#ceph-deploy --overwrite-conf config push ceph-mon{2..3}
