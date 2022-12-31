@@ -1,0 +1,6 @@
+  - job_name: "ceph-node-data"
+    static_configs:
+      - targets: ['192.168.0.2:9100','172.16.0.2:9100','10.0.0.2:9100']
+  - job_name: "ceph-cluster-data"
+    static_configs:
+      - targets: ['192.168.0.2:9283']

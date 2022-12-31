@@ -79,16 +79,16 @@ systemctl restart ceph-radosgw@rgw.ceph-mgr2.service
 # 配置反向代理
 vi /etc/haproxy/haproxy.cfg
 新增内容是：
-#listen ceph-rgw
+#listen ceph-rgw-80
 #        bind 192.168.0.2:80
 #        mode tcp
-#        server 192.168.0.2 192.168.0.2:9900 check inter 3s fall 3 rise 5
-#        server 172.16.0.2 172.16.0.2:9900 check inter 3s fall 3 rise 5
-#listen ceph-rgw
+#        server 192.168.0.2 192.168.0.2:9900 check inter 3s fail 3 rise 5
+#        server 172.16.0.2 172.16.0.2:9900 check inter 3s fail 3 rise 5
+#listen ceph-rgw-443
 #        bind 192.168.0.2:443
 #        mode tcp
-#        server 192.168.0.2 192.168.0.2:9443 check inter 3s fall 3 rise 5
-#        server 172.16.0.2 172.16.0.2:9443 check inter 3s fall 3 rise 5
+#        server 192.168.0.2 192.168.0.2:9443 check inter 3s fail 3 rise 5
+#        server 172.16.0.2 172.16.0.2:9443 check inter 3s fail 3 rise 5
 vi /etc/haproxy/haproxy.cfg
 systemctl restart haproxy
 systemctl status haproxy.service
