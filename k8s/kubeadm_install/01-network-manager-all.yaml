@@ -1,0 +1,26 @@
+# Let NetworkManager manage all devices on this system
+# In Windows: 网络和Internet > 高级网络设置 > 查看其它属性(VirtualBox Host-Only Ethernet Adapter)
+# sudo netplan apply, 就可以使能这些配置
+network:
+  version: 2
+  renderer: NetworkManager
+
+  ethernets:
+    enp0s8:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - 172.29.1.253/24
+      nameservers:
+        addresses: [172.29.1.252]
+    enp0s10:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - 172.29.1.1/24
+      routes:
+        - to: default
+          via: 172.29.1.252
+      nameservers:
+        addresses: [172.29.1.252]
+  version: 2

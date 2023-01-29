@@ -1,0 +1,71 @@
+# create a service for wordpress
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: wordpress
+#   labels:
+#     app: wordpress
+# spec:
+#   ports:
+#     - port: 80
+#   selector:
+#     app: wordpress
+#     tier: frontend
+#   type: LoadBalancer
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  ports:
+  - name: 90-90
+    port: 90
+    protocol: TCP
+    targetPort: 90
+  selector:
+    app: wordpress
+  type: NodePort
+status:
+  loadBalancer: {}
+
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: frontend
+    spec:
+      containers:
+      - image: wordpress:4.8-apache
+        name: wordpress
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: wordpress-mysql
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass          # generated before in secret.yml
+              key: password
+        ports:
+        - containerPort: 80
+          name: wordpress
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/html          # which data will be stored
+      volumes:
+        - name: wordpress-persistent-storage
