@@ -1,0 +1,59 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: myserver-tomcat-app1-deployment-overlay-label
+  name: myserver-tomcat-app1-deployment-overlay
+  namespace: myserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myserver-tomcat-app1-overlay-selector
+  template:
+    metadata:
+      labels:
+        app: myserver-tomcat-app1-overlay-selector
+    spec:
+      nodeName: k8s-node2.example.com
+      containers:
+      - name: myserver-tomcat-app1-container
+        #image: tomcat:7.0.93-alpine
+        image: registry.cn-hangzhou.aliyuncs.com/zhangshijie/tomcat-app1:v1
+        imagePullPolicy: IfNotPresent
+        ##imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+          name: http
+        env:
+        - name: "password"
+          value: "123456"
+        - name: "age"
+          value: "18"
+#        resources:
+#          limits:
+#            cpu: 0.5
+#            memory: "512Mi"
+#          requests:
+#            cpu: 0.5
+#            memory: "512Mi"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: myserver-tomcat-app1-service-overlay-label
+  name: myserver-tomcat-app1-service-overlay
+  namespace: myserver
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 30003
+  selector:
+    app: myserver-tomcat-app1-overlay-selector

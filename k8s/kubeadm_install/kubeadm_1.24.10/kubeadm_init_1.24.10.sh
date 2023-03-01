@@ -1,3 +1,4 @@
+#看k8s版本需要哪些镜像
 #kubeadm config images list --kubernetes-version v1.24.10
 #registry.k8s.io/kube-apiserver:v1.24.10
 #registry.k8s.io/kube-controller-manager:v1.24.10
@@ -34,3 +35,10 @@ kubeadm init --apiserver-advertise-address=172.31.6.201 --apiserver-bind-port=64
 #slave
 kubeadm join 172.31.6.201:6443 --token g7kc4k.no5too5ok3t9s8py \
         --discovery-token-ca-cert-hash sha256:e1f39da2e0ccf01fdfc1b9eee024d884080c8afce149ef51b04f7e6af94ea5c9 --cri-socket unix:///var/run/cri-dockerd.sock
+
+#let node also can access k8s cluster
+scp $HOME/.kube/config  root@k8s-node01:/root/.kube/
+scp $HOME/.kube/config  root@k8s-node02:/root/.kube/
+scp $HOME/.kube/config  root@k8s-node03:/root/.kube/
+
+

@@ -1,0 +1,25 @@
+---
+apiVersion: networking.alibaba.com/v1
+kind: Network
+metadata:
+  name: underlay-network1
+spec:
+  netID: 0
+  type: Underlay
+  nodeSelector:
+    network: "underlay-nethost"
+
+---
+apiVersion: networking.alibaba.com/v1
+kind: Subnet
+metadata:
+  name: underlay-network1
+spec:
+  network: underlay-network1
+  netID: 0
+  range:
+    version: "4"
+    cidr: "172.31.0.0/21"
+    gateway: "172.31.0.2"     # 外部网关地址
+    start: "172.31.6.1"
+    end: "172.31.6.254"

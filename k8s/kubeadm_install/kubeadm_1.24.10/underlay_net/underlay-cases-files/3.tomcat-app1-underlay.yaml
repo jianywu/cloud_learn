@@ -1,0 +1,62 @@
+kind: Deployment
+#apiVersion: extensions/v1beta1
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: myserver-tomcat-app1-deployment-underlay-label
+  name: myserver-tomcat-app1-deployment-underlay
+  namespace: myserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myserver-tomcat-app1-underlay-selector
+  template:
+    metadata:
+      labels:
+        app: myserver-tomcat-app1-underlay-selector
+      annotations: #使用Underlay或者Overlay网络
+        networking.alibaba.com/network-type: Underlay
+    spec:
+      #nodeName: k8s-node2.example.com
+      containers:
+      - name: myserver-tomcat-app1-container
+        #image: tomcat:7.0.93-alpine
+        image: registry.cn-hangzhou.aliyuncs.com/zhangshijie/tomcat-app1:v2
+        imagePullPolicy: IfNotPresent
+        ##imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+          name: http
+        env:
+        - name: "password"
+          value: "123456"
+        - name: "age"
+          value: "18"
+#        resources:
+#          limits:
+#            cpu: 0.5
+#            memory: "512Mi"
+#          requests:
+#            cpu: 0.5
+#            memory: "512Mi"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: myserver-tomcat-app1-service-underlay-label
+  name: myserver-tomcat-app1-service-underlay
+  namespace: myserver
+spec:
+#  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+    #nodePort: 40003
+  selector:
+    app: myserver-tomcat-app1-underlay-selector
