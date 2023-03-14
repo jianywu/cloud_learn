@@ -1,0 +1,2 @@
+FROM harbor.magedu.net/baseimages/slim_java:8
+

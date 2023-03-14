@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: centos7-default
+  name: centos7-default
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: centos7-default
+  template:
+    metadata:
+      labels:
+        app: centos7-default
+    spec:
+      containers:
+      - image: centos:centos7.9.2009
+        name: centos
+        command:
+          - sleep
+          - "50000000"
