@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: magedu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "800m"
+      - image: redis
+        name: redis
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "800m"
+      - image: tomcat
+        name: tomcat
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "800m"
