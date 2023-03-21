@@ -4,14 +4,14 @@
 # https://mp.weixin.qq.com/s/fX_SHoRYUFzGBZp9VidDSQ
 
 # time sync
-apt install chrony
+apt install chrony -y
 systemctl start chrony.service
 systemctl status chrony.service
 systemctl enable chrony.service
 
 # disable swap
 swapoff -a
-systemctl --type swap
+#systemctl --type swap
 # 手工删除/etc/fstab里带swap的那一行，确保重启后，swap还是关闭的
 
 # disable firewall
@@ -25,7 +25,7 @@ apt -y install apt-transport-https ca-certificates curl software-properties-comm
 curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | apt-key add -
 add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
 apt update -y
-apt install docker-ce -y
+apt install docker-ce docker-compose -y
 
 # 给docker加镜像加速服务, 有镜像加速后，就可以不需要代理了
 echo ./daemon.json >> /etc/docker/daemon.json
@@ -34,7 +34,7 @@ systemctl start docker
 systemctl enable docker
 
 # install cri-dockerd
-# wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.0/cri-dockerd_0.3.0.3-0.ubuntu-focal_amd64.deb
+wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.0/cri-dockerd_0.3.0.3-0.ubuntu-focal_amd64.deb
 chmod 777 ./cri-dockerd_0.3.0.3-0.ubuntu-focal_amd64.deb
 apt install -y ./cri-dockerd_0.3.0.3-0.ubuntu-focal_amd64.deb
 
@@ -51,16 +51,17 @@ systemctl enable kubelet
 
 # /usr/lib/systemd/system/cri-docker.service文件里，ExecStart加上cni插件
 # ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd:// --network-plugin=cni --cni-bin-dir=/opt/cni/bin --cni-cache-dir=/var/lib/cni/cache --cni-conf-dir=/etc/cni/net.d
+sudo systemctl daemon-reload && sudo systemctl restart cri-docker
 
 # 配置kubelet
-mkdir -p /etc/sysconfig
+sudo mkdir -p /etc/sysconfig
 cp kubelet.conf /etc/sysconfig/kubelet
 
 # 启动kubeadm主节点
 sh ./kubeadm_init.sh
 
-# 获取flannel网络插件
-# wget https://github.com/flannel-io/flannel/releases/download/v0.20.2/flanneld-amd64
+# 获取flannel网络插件(只需要在master执行)
+wget https://github.com/flannel-io/flannel/releases/download/v0.20.2/flanneld-amd64
 mkdir -p /opt/bin/
 cp flanneld-amd64 /opt/bin/flanneld
 chmod +x /opt/bin/flanneld
@@ -71,3 +72,20 @@ kubelet apply -f kube-flannel.yml
 # 看kubelet，应该是正常运行了
 systemctl status kubelet
 journalctl -xeu kubelet
+
+# 修改主机名
+sudo hostnamectl set-hostname k8s-master01
+#sudo hostnamectl set-hostname k8s-node01
+
+# 配置/etc/hosts
+172.31.7.101 k8s-master01
+172.31.7.111 k8s-node01
+172.31.7.112 k8s-node02
+172.31.7.113 k8s-node03
+
+# 复制ssh key到node，方便后续使用
+ssh-keygen
+ssh-copy-id jianywu@k8s-node01
+ssh-copy-id jianywu@k8s-node02
+ssh-copy-id jianywu@k8s-node03
+

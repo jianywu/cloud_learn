@@ -1,0 +1,25 @@
+# Let NetworkManager manage all devices on this system
+# Enable NAT and bridge in vmware
+# sudo netplan apply, 就可以使能这些配置
+# master: 172.31.7.101
+# api server: 172.31.6.201，实际环境最好使用不同的网卡
+# node: 172.31.7.111, 172.31.7.112, 172.31.7.113
+# gateway: 172.31.0.2(VMnet8)
+# nameservers: 223.6.6.6
+network:
+  version: 2
+  renderer: NetworkManager
+
+  ethernets:
+    enp0s10:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - 172.31.7.101/24
+        - 172.31.6.201/24
+      routes:
+        - to: default
+          via: 172.31.0.2
+      nameservers:
+        addresses: [223.6.6.6]
+  version: 2
