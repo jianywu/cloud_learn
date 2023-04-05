@@ -276,3 +276,11 @@ data:
       static_configs:
         - targets: ['172.31.7.109:30913']
 
+    - job_name: "nacos"
+      metrics_path: '/nacos/actuator/prometheus'
+      static_configs:
+        - targets:
+          - 172.31.7.118:8848
+          labels:
+            project_name: "nacos"
+
